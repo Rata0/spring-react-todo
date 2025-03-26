@@ -3,6 +3,7 @@ package com.hexlet.demo.services;
 import com.hexlet.demo.model.User;
 import com.hexlet.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User register(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return user;
     }
 }
