@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private BCryptPasswordEncoder encoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
