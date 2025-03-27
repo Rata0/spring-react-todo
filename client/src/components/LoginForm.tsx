@@ -31,6 +31,7 @@ const LoginForm = () => {
       const token = response.data;
       
       localStorage.setItem('jwtToken', token);
+      console.log(token);
       
       setMessage('Login successful! Redirecting...');
       setIsError(false);
