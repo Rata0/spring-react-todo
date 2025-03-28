@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import AuthService from '../services/AuthService';
 import { useNavigate } from 'react-router-dom';
-import { fetchTodos, fetchProfile } from '../services/todoService';
+// import { fetchTodos, fetchProfile } from '../services/todoService';
+import axios from 'axios';
 
 type TUser = {
   username: string;
@@ -27,13 +28,11 @@ const ProfilePage = () => {
 
     const fetchData = async () => {
       try {
-        const [profileResponse, todosData] = await Promise.all([
-          fetchProfile(),
-          fetchTodos()
-        ]);
-
+        const profileResponse = await axios.get('http://localhost:4040/profile');
         setUserData(profileResponse.data);
-        setTodos(todosData);
+        
+        const todosResponse = await axios.get('http://localhost:4040/todos');
+        setTodos(todosResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         AuthService.removeToken();
