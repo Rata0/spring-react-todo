@@ -4,6 +4,7 @@ import com.hexlet.demo.model.User;
 import com.hexlet.demo.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +35,10 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody User user) {
         return userService.verify(user);
+    }
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<?> validateToken() {
+        return ResponseEntity.ok().build();
     }
 }
