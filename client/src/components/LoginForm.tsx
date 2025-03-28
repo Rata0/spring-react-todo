@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../services/AuthService';
 
 interface UserCredentials {
   username: string;
@@ -14,7 +15,7 @@ const LoginForm = () => {
   });
   const [message, setMessage] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,20 +29,14 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:4040/login', credentials);
-      const token = response.data;
-      
-      localStorage.setItem('jwtToken', token);
-      console.log(token);
-      
+      AuthService.setToken(response.data);
       setMessage('Login successful! Redirecting...');
       setIsError(false);
-      
-      // setTimeout(() => navigate('/profile'), 1000);
-      
+      navigate('/profile');
     } catch (error) {
       setMessage('Login failed. Check your credentials.');
       setIsError(true);
-      console.error(error);
+      console.error('Login failed:', error);
     }
   };
 
