@@ -2,6 +2,7 @@ package com.hexlet.demo.services;
 
 import com.hexlet.demo.model.User;
 import com.hexlet.demo.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User register(User user) {
+    public User register(@Valid User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
