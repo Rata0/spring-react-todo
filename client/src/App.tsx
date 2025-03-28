@@ -3,7 +3,6 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import AuthRoute from './components/AuthRoute';
 import ProfilePage from './components/ProfilePage';
-import TodoList from './components/TodoList';
 
 function App() {
   return (
@@ -16,14 +15,6 @@ function App() {
         element={
           <AuthRoute>
             <ProfilePage />
-          </AuthRoute>
-        }
-      />
-      <Route
-        path="/todos"
-        element={
-          <AuthRoute>
-            <TodoList />
           </AuthRoute>
         }
       />
