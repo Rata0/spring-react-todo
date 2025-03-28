@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/register").permitAll()
                         .requestMatchers("/profile").authenticated()
                         .requestMatchers("/validate-token").authenticated()
+                        .requestMatchers("/todos").authenticated()
                         .anyRequest().authenticated()).
                 httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
