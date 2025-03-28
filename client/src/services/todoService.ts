@@ -9,3 +9,12 @@ export const fetchTodos = async () => {
   });
   return response.data;
 };
+
+export const fetchProfile = async () => {
+  const response = await axios.get('http://localhost:4040//profile', {
+    headers: {
+      Authorization: `Bearer ${AuthService.getToken()}`
+    }
+  });
+  return response.data;
+};

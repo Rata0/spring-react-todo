@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import AuthService from '../services/AuthService';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { fetchTodos, fetchProfile } from '../services/todoService';
 
 type TUser = {
   username: string;
@@ -27,11 +27,13 @@ const ProfilePage = () => {
 
     const fetchData = async () => {
       try {
-        const profileResponse = await axios.get('http://localhost:4040/profile');
+        const [profileResponse, todosData] = await Promise.all([
+          fetchProfile(),
+          fetchTodos()
+        ]);
+
         setUserData(profileResponse.data);
-        
-        const todosResponse = await axios.get('http://localhost:4040/todos');
-        setTodos(todosResponse.data);
+        setTodos(todosData);
       } catch (error) {
         console.error('Error fetching data:', error);
         AuthService.removeToken();
@@ -47,12 +49,6 @@ const ProfilePage = () => {
     navigate('/login');
   };
 
-  if (!userData) {
-    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 flex items-center justify-center">
-      <div className="text-gray-600 dark:text-gray-400">Loading...</div>
-    </div>;
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
@@ -60,7 +56,7 @@ const ProfilePage = () => {
           <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
             <div className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 bg-gray-200 flex items-center justify-center">
               <span className="text-4xl font-bold text-gray-600 dark:text-gray-400">
-                {userData.username.charAt(0).toUpperCase()}
+                {userData?.username.charAt(0).toUpperCase()}
               </span>
             </div>
           </div>
@@ -68,7 +64,7 @@ const ProfilePage = () => {
 
         <div className="pt-20 px-6 pb-6 text-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-            {userData.username}
+            {userData?.username}
           </h1>
           
           <div className="mb-6">
