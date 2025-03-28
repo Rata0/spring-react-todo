@@ -17,16 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public String greet(HttpServletRequest request) {
-        return "Welcome to Telusko "+request.getSession().getId();
-    }
-
-    @GetMapping("/users")
-    public List<User> index() {
-        return userService.getAllUsers();
-    }
-
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.register(user);
